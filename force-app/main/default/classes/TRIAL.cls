@@ -6,7 +6,6 @@ public with sharing class TRIAL {
         Set<Id> ids = new Set<Id>();
         for(Contact c : con){
             ids.add(c.id);
-            
         }
     }
 }
