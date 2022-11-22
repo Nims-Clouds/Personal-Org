@@ -6,6 +6,7 @@ public  class Task_4_controller {
     public String searchKey{get;set;}
     public integer OffsetSize = 0;
     public integer LimitSize = 10;
+    
     public String page{get;set;}
 
     public Task_4_controller() {
