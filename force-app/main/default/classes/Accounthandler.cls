@@ -65,6 +65,7 @@ public with sharing class Accounthandler {
                     Messaging.sendEmail(emailList);
                 }
             }
+            
         }
 
 
