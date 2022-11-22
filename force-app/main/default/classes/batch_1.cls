@@ -1,20 +1,26 @@
-global class batch_1 implements Database.Batchable<sObject>{
-    public List<Account> accountlist = new List<Account>();
+global class batch_1 implements Database.Batchable<sObject>,Database.Stateful{
+    global List<Account> idstopass = new List<Account>();
+
    global Database.QueryLocator start(Database.BatchableContext bc){
-    return Database.getQueryLocator([SELECT Id, Name FROM Account WHERE Name =: 'Nimit']);
+    return Database.getQueryLocator([SELECT Id, Name FROM Account WHERE Name = 'Nimit']);
    }
    global void execute(Database.BatchableContext bc, List<Account> acc){
+
     for(Account a : acc){
-        a.Name = 'Nimit';
-        accountlist.add(a);
+        a.Name = a.Name +'Batchupdate';
+        idstopass.add(a);
     }
     update acc;
-    
-   System.debug(accountlist);
-   }
+
+    // for(Integer i = 0; i < 2000; i++){
+    //     Account a = new Account(Name = 'Nimit');
+    //     idstopass.add(a);
+    // }
+    // insert idstopass;
+       }
    global void finish(Database.BatchableContext bc){
-    System.debug(accountlist);
-    batch_2 batch = new batch_2(accountlist);
+
+    batch_2 batch = new batch_2(idstopass);
     Id ids = Database.executeBatch(batch,2000);
    }
 }

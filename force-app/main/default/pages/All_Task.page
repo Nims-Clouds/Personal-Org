@@ -1,4 +1,4 @@
-<apex:page controller="All_Task">
+<apex:page controller="All_Task" >
     <apex:form>
         <apex:commandButton action="{!Task_1}" value="Task_1" />
         <apex:commandButton action="{!Task_2}" value="Task_2" />
@@ -6,6 +6,8 @@
         <apex:commandButton action="{!Task_4}" value="Task_4" />
         <apex:commandButton action="{!Task_5}" value="Task_5" />
         <apex:commandButton action="{!Task_6}" value="Task_6" />
-        <apex:commandButton action="{!Task_3_additional}" value="Task_3_additional" />
+        <apex:commandButton action="{!Task_3_additional}" value="Task_3_additoinal" />
     </apex:form>
 </apex:page>
+
+

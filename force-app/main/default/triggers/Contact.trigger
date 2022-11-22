@@ -10,10 +10,10 @@ trigger Contact on Contact (after insert, before update,after delete, before ins
     }
     else{
         if(Trigger.isDelete){
-            Contacthandler.deleteacc(Trigger.old);
+            // Contacthandler.deleteacc(Trigger.old);
         }
         else{
-            Contacthandler.createevent(Trigger.new);
+            // Contacthandler.createevent(Trigger.new);
         }
     }
 

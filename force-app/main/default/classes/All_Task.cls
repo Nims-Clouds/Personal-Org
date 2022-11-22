@@ -1,6 +1,7 @@
 public class All_Task {
     public All_Task() {
     }
+ 
     public PageReference Task_1(){
         return Page.StandardContact;
     }

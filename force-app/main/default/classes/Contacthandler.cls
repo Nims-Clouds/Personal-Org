@@ -35,39 +35,39 @@ update con;
 }
 
 public static void great_problem(List<Contact> contactlist){
-    for(Contact con : contactlist){
-    Account acc = [SELECT Id, Total_Amount__c FROM Account WHERE Id = : con.AccountId];
-
-    if(con.Amount__c > acc.Total_Amount__c){
-        List<Contact> c = new List<Contact>();
-        while (con.Amount__c > acc.Total_Amount__c) {
-            Contact co = new Contact(LastName = con.LastName,Amount__c = acc.Total_Amount__c, AccountId = con.AccountId);
+Set<Id> accids = new Set<Id>();
+for(Contact con : contactlist){
+    accids.add(con.AccountId);
+}
+Map<Id, Account> acc = new Map<Id, Account>([SELECT Id, Total_Amount__c FROM Account WHERE Id IN : accids]);
+List<Contact> c = new List<Contact>();
+for(Contact con : contactlist){
+        while (con.Amount__c >acc.get(con.AccountId).Total_Amount__c) {
+            Contact co = new Contact(LastName = con.LastName,Amount__c = acc.get(con.AccountId).Total_Amount__c, AccountId = con.AccountId);
             c.add(co);
-            con.Amount__c -= acc.Total_Amount__c;
-        }
-        insert c;
+            con.Amount__c -= acc.get(con.AccountId).Total_Amount__c;   
     }
 }
-    // Amount__c	Total_Amount__c
+insert c;
 }
 public static void update_great(List<Contact> contactlist){
+ 
+Set<Id> accids = new Set<Id>();
+for(Contact con : contactlist){
+    accids.add(con.AccountId);
+}
+Map<Id, Account> acc = new Map<Id, Account>([SELECT Id, Total_Amount__c FROM Account WHERE Id IN : accids]);
+List<Contact> c = new List<Contact>();
 
-    for(Contact con : contactlist){
-        Account acc = [SELECT Id, Total_Amount__c FROM Account WHERE Id = : con.AccountId];
-    
-        if(con.Amount__c > acc.Total_Amount__c){
-            List<Contact> c = new List<Contact>();
-            while (con.Amount__c > acc.Total_Amount__c) {
-                Contact co = new Contact(LastName = con.LastName,Amount__c = acc.Total_Amount__c, AccountId = con.AccountId);
-                c.add(co);
-                con.Amount__c -= acc.Total_Amount__c;
-            }
-            insert c;
-        }
+for(Contact con : contactlist){
+        while (con.Amount__c >acc.get(con.AccountId).Total_Amount__c) {
+            Contact co = new Contact(LastName = con.LastName,Amount__c = acc.get(con.AccountId).Total_Amount__c, AccountId = con.AccountId);
+            c.add(co);
+            con.Amount__c -= acc.get(con.AccountId).Total_Amount__c;   
     }
-        // Amount__c	Total_Amount__c
+}
+insert c;
     }
-
 }     
 
             
