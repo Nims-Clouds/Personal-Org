@@ -12,8 +12,8 @@
                 <th style="text-align: center;"><u>Stock</u></th>
             </tr>
             <tr style="border: 1px solid black;">
-                <td style="text-align: center; border: 1px solid black;">100</td>
-                <td style="text-align: center; border: 1px solid black;">100</td>
+                <td style="text-align: center; border: 1px solid black;">{CashData}</td>
+                <td style="text-align: center; border: 1px solid black;">{BankData}</td>
                 <td style="text-align: center; border: 1px solid black;">100</td>
             </tr>
            </table>
@@ -24,9 +24,9 @@
     <lightning-card>
         <table>
             <tr>
-                <td style="text-align: center; border: 1px solid black;"><b>Income :</b><span style="color: green;">100</span></td>
-                <td style="text-align: center; border: 1px solid black;"><b>Expense :</b><span style="color: red;">100</span></td>
-                <td style="text-align: center; border: 1px solid black;"><b>Total Amount :</b>100</td>
+                <td style="text-align: center; border: 1px solid black;"><b>Income : </b><span style="color: green;">{income}</span></td>
+                <td style="text-align: center; border: 1px solid black;"><b>Expense : </b><span style="color: red;">{expense}</span></td>
+                <td style="text-align: center; border: 1px solid black;"><b>Total Amount : </b>{TotalAmount}</td>
             </tr>
         </table>
     </lightning-card>
@@ -40,6 +40,6 @@
             columns={columns}
         ></lightning-datatable>
     </lightning-card>
-    
+
 </div>
 </template>
