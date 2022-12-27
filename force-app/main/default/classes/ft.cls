@@ -10,4 +10,5 @@ public with sharing class ft {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    
 }

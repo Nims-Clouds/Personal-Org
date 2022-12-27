@@ -3,6 +3,7 @@ import transactions from '@salesforce/apex/ft.transactions';
 import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import Name from "@salesforce/schema/Person__c.Name";
 
+
 const fields = [Name];
 
 export default class FT1 extends LightningElement {
