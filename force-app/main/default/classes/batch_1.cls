@@ -11,16 +11,10 @@ global class batch_1 implements Database.Batchable<sObject>,Database.Stateful{
         idstopass.add(a);
     }
     update acc;
-
-    // for(Integer i = 0; i < 2000; i++){
-    //     Account a = new Account(Name = 'Nimit');
-    //     idstopass.add(a);
-    // }
-    // insert idstopass;
        }
    global void finish(Database.BatchableContext bc){
 
-    batch_2 batch = new batch_2(idstopass);
-    Id ids = Database.executeBatch(batch,2000);
+    // batch_2 batch = new batch_2(idstopass);
+    // Id ids = Database.executeBatch(batch,2000);
    }
 }

@@ -2,52 +2,35 @@ public with sharing class Opportunityhandler {
     public Opportunity opp;
     public Opportunity op;
 
-    public Opportunityhandler() {
-
-    }
     public static void invoke(Opportunity op){
         future(op.Id);
     }
+    
     @future (callout = true)
     public static void future(Id ids){
-        // HttpRequest req = new HttpRequest();
-        // req.setEndpoint('https://api.unsplash.com/photos/?client_id=7buh_DQcbfeESCH7k4N_P1nHQ_hQ1FhGCR9iM4Fd7lY');
-        // req.setMethod('GET');
-        // Http http = new Http();
-        // HTTPResponse res =  new HTTPResponse();
-        // res=http.send(req);
-        // System.debug(JSON.Serialize(res.getbody()));
 
-        // String textfile = 'Hey';
-        // ContentVersion cVersion = new ContentVersion();
-        // cVersion.ContentLocation = 'S'; 
-        // cVersion.PathOnClient = 'nimit.jpg';
-        // Blob textdata = Blob.valueof('https://images.unsplash.com/photo-1661961111247-e218f67d1cd2?crop=entropy\u0026cs=tinysrgb\u0026fit=max\u0026fm=jpg\u0026ixid=MnwzODI4NTl8MXwxfGFsbHwxfHx8fHx8Mnx8MTY2OTE4Njg2MA\u0026ixlib=rb-4.0.3\u0026q=80\u0026w=400');
-        // System.debug(textdata);
-        // cVersion.VersionData = textdata;
-        // Insert cVersion;
-String TestImageUrl='https://api.unsplash.com/photos/?client_id=7buh_DQcbfeESCH7k4N_P1nHQ_hQ1FhGCR9iM4Fd7lY';
+        String TestImageUrl='https://api.unsplash.com/photos/random/?client_id=7buh_DQcbfeESCH7k4N_P1nHQ_hQ1FhGCR9iM4Fd7lY';
         HttpRequest req = new HttpRequest();
         req.setEndpoint(TestImageUrl);
-        req.setMethod('GET');
-      
-        
+        req.setMethod('GET');        
         Http binding = new Http();
         HttpResponse response = binding.send(req);
-        String base64 = EncodingUtil.base64Encode(response.getBodyAsBlob());
-        base64  = EncodingUtil.urlDecode(base64, 'UTF-8');
-        Blob testData = Blob.valueOf(base64);
-        //String Image = 'response.getBodyAsBlob()';
-        System.debug(testdata);
+        String r = String.Valueof(response.getBody()).replace('[','');
+        r = r.substring(r.indexOf('full'),r.indexOf('=80'));
+        r = r.replace('full":"','');
+
+        HttpRequest req1 = new HttpRequest();
+        req1.setEndpoint(r);
+        req1.setMethod('GET');        
+        Http binding1 = new Http();
+        HttpResponse response1 = binding1.send(req1);
+
 
         ContentVersion cv = new ContentVersion();
         cv.ContentLocation ='S';
-        cv.Title = 'Test Image'; 
-        cv.PathOnClient ='Technology-Logo-Final-03.jpg'; 
-      //  Blob testData = Blob.valueOf(base64);
-      cv.VersionData = EncodingUtil.base64Decode(base64);
-
-        // cv.VersionData = response.getBodyAsBlob();
+        cv.Title = 'Test Image';
+        cv.PathOnClient = 'Image.jpg'; 
+        cv.VersionData = response1.getBodyAsBlob(); 
         insert cv;
  
         Id conDocument = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =:cv.Id].ContentDocumentId;
@@ -73,31 +56,44 @@ String TestImageUrl='https://api.unsplash.com/photos/?client_id=7buh_DQcbfeESCH7
         op.CloseDate =  d.addDays(15);
         }
     }
-    public static void changetypeup(List<Opportunity> opp){
-        for(Opportunity op : opp){
-            Opportunity opUp = [SELECT Id , Type FROM Opportunity WHERE Id =: op.Id];
 
-            if(opUp.Type!= 'New Customer'){
-                opUp.Type ='New Customer';
-                update opUp;
+// ----------------------------- LWC Task-3 -----------------------------------------------
+@AuraEnabled
+    public static List<Opportunity> opportunity(Id AccountId){
+        try {
+            if(AccountId != null){
+                return[SELECT Id, Name FROM Opportunity WHERE AccountId =: AccountId];
+            }
+            else{
+                return null;
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
         }
     }
+// =========================================================================================
+
+    public static void changetypeup(List<Opportunity> opp){
+        for(Opportunity op : opp){
+            if(op.Type!= 'New Customer'){
+                op.Type ='New Customer';
+        }
+    }
+    update opp;
 }
     public static void changetypein(List<Opportunity> opp){
         for(Opportunity op : opp){
-        Opportunity opUp = [SELECT Id FROM Opportunity WHERE Id =: op.Id];
-        opUp.Type ='New Customer';
-        update opUp;
+        op.Type ='New Customer';
         }
+        update opp;
     }
     public static void createtask(Opportunity oppo , Opportunity oppn){
-       System.debug(oppn.Name);
         if(oppo.Name != oppn.Name){
             Task t = new Task();
             t.WhatID          = Oppn.Id;
             t.Ownerid         = oppn.Ownerid;
-            t.subject 	  = 'This is the Subject';
-            t.Status	  = 'In Progress';
+            t.subject 	      = 'This is the Subject';
+            t.Status	      = 'In Progress';
             t.Description     = 'This is the Description';
             insert t;
     }

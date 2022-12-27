@@ -72,16 +72,11 @@ public class day_2  {
                     opt = [SELECT Id , Name FROM Opportunity WHERE AccountId=: cont.AccountId LIMIT:LimitSize OFFSET:OffsetSize ];
                      counts = 4;
                     return Page.Day_2_Dashboard;
-                    // PageReference pg = new PageReference('/apex/Day_2_Dashboard');
-                    // pg.setRedirect(true);
-                    // return pg;
-
                 }
             } catch (Exception e) {
                 alert = 'There is no such email in database';
             }
         }
-        System.debug('1');
         return null;
     }
 
@@ -92,8 +87,7 @@ public class day_2  {
         opt = [SELECT Id , Name FROM Opportunity WHERE AccountId=: cont.AccountId  LIMIT:LimitSize OFFSET:OffsetSize ];
         }
         else {
-            OffsetSize = 0;
-           
+            OffsetSize = 0; 
         }
     }
     public void nextcon(){
@@ -104,7 +98,6 @@ public class day_2  {
             }
             else{
                 OffsetSize = OffsetSize - LimitSize;
-            }
-        
+            }    
     }
 }
