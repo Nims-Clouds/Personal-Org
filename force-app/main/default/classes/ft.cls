@@ -3,13 +3,9 @@ public with sharing class ft {
     @AuraEnabled
     public static List<Transaction__c> transactions(String recordid){
         try {
-            System.debug(recordid);
             List<Transaction__c> data = [SELECT Name,Amount__c,Date__c,Transaction_method__c FROM Transaction__c WHERE Person__c =: recordid];
-            System.debug(data);
             return data;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
+        } catch (Exception e) {throw new AuraHandledException(e.getMessage());}
     }
 
     @AuraEnabled
@@ -40,15 +36,12 @@ public with sharing class ft {
             values.add(Amount);
             
             return values;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
+        } catch (Exception e) {throw new AuraHandledException(e.getMessage());}
     }
 
     @AuraEnabled
     public static List<Decimal> saveamount(String recordid){
         try {
-
             Decimal CashData = 0;
             Decimal BankData = 0; 
             List<Decimal> values = new List<Decimal>();
@@ -65,7 +58,6 @@ public with sharing class ft {
                 CashData -= debit.Amount__c;
             }
             values.add(CashData);
-            System.debug(CashData);
 
             // Bank Data
             List<Transaction__c> creditbankdata = [SELECT Amount__c FROM Transaction__c WHERE Person__c =: recordid AND Credit__c =: True AND Bank__c =: True];
@@ -74,12 +66,11 @@ public with sharing class ft {
             for(Transaction__c credit : creditbankdata){
                 BankData += credit.Amount__c;
             }
-             
+
             for(Transaction__c debit : debitbankdata){
                 BankData -= debit.Amount__c;
             }
             values.add(BankData);
-            System.debug(BankData);
 
             return values;
         } catch (Exception e) {throw new AuraHandledException(e.getMessage());}
