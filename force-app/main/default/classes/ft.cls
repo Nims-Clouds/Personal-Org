@@ -82,8 +82,6 @@ public with sharing class ft {
             System.debug(BankData);
 
             return values;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
-        }
+        } catch (Exception e) {throw new AuraHandledException(e.getMessage());}
     }
 }
